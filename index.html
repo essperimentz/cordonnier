@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Cordonnier v0.1</title>
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Le fonts Leckerli+One -->    
+    <link href='http://fonts.googleapis.com/css?family=Vibur' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Rancho' rel='stylesheet' type='text/css'>
+
+    <!-- Le styles -->
+    <link rel="stylesheet" media="screen" href="http://assets.needium.com/lib/bootstrap/1.4.0/bootstrap.min.css" />
+    <link rel="stylesheet" media="screen" href="vendor/farbtastic/farbtastic.css" />
+
+    <!--
+        fav and touch icons
+        <link rel="shortcut icon" type="image/x-icon" href="assets/ico/favicon.ico">
+        <link rel="apple-touch-icon" href="assets/ico/bootstrap-apple-57x57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="assets/ico/bootstrap-apple-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="assets/ico/bootstrap-apple-114x114.png">
+     -->
+     <style type="text/css" media="screen">
+     html{background:#f0f0f0}
+        body,b,label{color:#321}
+        .topbar-inner{background:#804000}
+        h1,h2,h3,h4,h5,h6,fieldset legend{color:#804000}
+        h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{color:#804000}
+        h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{color:#c96}
+        .welcome{font-family:'Rancho',sans-serif;}
+        .project,.welcome{font-family:'Vibur',sans-serif;}
+        .topbar .brand{
+            padding-left:32px;margin-left:-32px;background:url(lib/louis-marie-cordonnier.png) left center no-repeat}
+            textarea{resize:vertical}
+        #main{padding-top:65px}
+        #preview{
+            height:auto;
+            width:100%;
+            min-height:40em;            
+            border:0;
+        }
+        #fake-browser{
+            position:relative;
+            border:3px solid #fcfcfc;
+            border-top:16px solid #fcfcfc;
+            border-radius:3px;
+            box-shadow:0 0 9px 1px #999;
+            margin-right:-6px;
+        }
+        #fake-browser > .fill{
+            outline:1px solid #ccc;
+            border:1px solid #fff;
+        }
+        .preview-file-upload,.master-picker label{
+            border:1px solid #ccc;padding:3px;
+            -webkit-border-radius: 3px;
+               -moz-border-radius: 3px;
+                    border-radius: 3px;
+                    margin-top:0.25em;
+        }
+        .master-picker label:hover{
+            -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.5);
+               -moz-box-shadow: 0 0 4px rgba(0,0,0,0.5);
+                    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
+        .master-picker label.checked{
+            border:1px solid #0069D6;
+            -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.5);
+               -moz-box-shadow: 0 0 4px rgba(0,0,0,0.5);
+                    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+
+        }
+        #html{
+            display:block;float:left;clear:both;
+            background:#f0f0f0;margin:0;padding:0;
+            border:0;
+            max-width:100%;
+            padding:10px;
+            min-height:400px;
+            overflow:hidden;
+            white-space:pre;
+        }
+        .font-picker{margin:0;padding:0;}
+        .font-picker select{
+            margin-bottom:5px;
+        }
+        .font-picker iframe{
+            padding:0px;margin:0;height:24px;border:0;display:none;
+        }
+        .reset-file-upload{
+            float:right;padding:0.1em;
+        }
+        
+        footer{text-align:center}
+        footer a.project{font-size:1.1em}
+        .brand small{font-size:0.5em;color:#C96;font-weight:bold}
+        .support{color:#999;font-size:11px;}
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Topbar
+    ================================================== -->
+    <div class="topbar" data-scrollspy="scrollspy" >
+      <div class="topbar-inner">
+        <div class="container">
+          <a class="brand" href="#">Cordonnier <small>v0.1</small></a>
+          <!-- <ul class="nav">
+            <li class="active"><a href="#section-a">outp</a></li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+
+
+
+    <div id="main" class="container">
+        <section id="section-a">
+            <div class="content row">
+                <div class="span6">
+                    <header class="page-header">
+                        <h1>Edit <small>Cure your <a href="http://twitter.github.com/bootstrap">bootstraps</a>.</small></h1>
+                    </header>
+                    <div id="edit" class="row">
+                            <form class="form-stacked">
+                                <fieldset>
+                                    <legend>Custom</legend>
+                                    <div class="clearfix">                     
+                                        <label for="master">Template</label>
+                                        <div class="row master-picker">
+                                            <label class="checked span2">
+                                                <img alt="Hero" width="90px" src="lib/example-diagram-01.png" />
+                                                <input type="radio" checked="checked" name="master" value="hero">
+                                            </label>
+                                            <label class="span2">
+                                                <img alt="Fluid"  width="90px" src="lib/example-diagram-02.png" />
+                                                <input type="radio" checked="checked" name="master" value="fluid">
+                                            </label>
+                                            <label class="span2">
+                                                <img alt="Container App"  width="90px" src="lib/example-diagram-03.png" />
+                                                <input type="radio" checked="checked" name="master" value="container-app">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label for="project">Project Name</label>
+                                        <div class="input">
+                                            <input type="text" id="project" name="project" class="span6" placeholder="ex: Cordonnier">
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label for="copyright">Copyright Holder</label>
+                                        <div class="input">
+                                            <input type="text" id="copyright" name="copyright" class="span6" placeholder="You Inc.">
+                                        </div>
+                                    </div>                                    
+
+                                </fieldset>
+                                <fieldset>
+                                    <legend>Shine</legend>
+                                    <div class="clearfix">
+                                        <label for="icon">Icon</label>
+                                        <div class="input">
+                                            <input type="file" accept="image/gif,image/jpg,image/png" name="icon" class="span6" id="icon">
+                                            <span class="help-block">Maximum height is 32px, images will be resized proportionately.</span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix">
+                                        <label for="project_font_url">Project Font</label>
+                                        <div class="input">
+                                            <!-- 
+                                                I started looking for a solution to displaying a font drop-down.
+                                                As I found new solutions I also found myself having to trade-off on 
+                                                some basic principles I had decided to sustain for the overall design 
+                                                of my app. 
+
+                                                That's when I realized that a custom dropdown would only make my life insecure 
+                                                and that this would be reflected in my app.
+
+                                                So I decided to go with this approach, which has more acceptable trade-offs in my mind.
+
+                                                I am now a happy developer who can move on to the next micro decision.
+                                             -->
+                                            <div class="font-picker">
+                                                <select id="fontlist" class="span6"><option>Select a font</option></select>
+                                                <iframe class="font-preview" src=''></iframe>
+                                                <input type="hidden" id="font_url"    name="font_url"    class="span6">
+                                                <input type="hidden" id="font_family" name="font_family" class="span6">                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix">
+                                        <label for="project_color">Color</label>
+                                        <div class="input">
+                                            <div class="color-picker">
+                                                <input type="text" id="project_color" name="color" value="" class="span2">    
+                                                <div class="picker span4" style="float:right"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </fieldset>
+                            </form>
+                    </div>
+                </div>                
+                <div class="span10">
+                    <header class="page-header">
+                        <h1>Preview <small>See your changes as you edit.</small></h1>
+                    </header>
+                    <div id="fake-browser">
+                        <div class="fill">
+                            <iframe id="preview" src="" seamless></iframe>                               
+                        </div>                    
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div><!-- /container -->
+    <footer class="footer">
+      <div class="container">
+          <p class="support">
+             This little project is built for Google Chrome 15.0+ or Firefox 7.0+. It might work in Opera, Safari doesn't support the FileReader, and Internet Explorer has been completely ignored. 
+          </p>
+          <p class="legal">
+              <a class="brand" href="#">Cordonnier v0.1</a> by <a href="http://twitter.com/#!/quickredfox">@quickredfox</a>. <br>Copyright &copy; 2011 Francois Lafortune.
+          </p>
+      </div>
+    </footer>
+    <output id="html" class="prettyprint lang-html"></output>
+
+    <script src="http://assets.needium.com/lib/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-alerts.js"    type="text/javascript" charset="utf-8"></script>  
+    <!-- // 
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-buttons.js"   type="text/javascript" charset="utf-8"></script>  
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-dropdown.js"  type="text/javascript" charset="utf-8"></script>  
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-tabs.js"      type="text/javascript" charset="utf-8"></script>  
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-twipsy.js"    type="text/javascript" charset="utf-8"></script>  
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-popover.js"   type="text/javascript" charset="utf-8"></script>  
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-scrollspy.js" type="text/javascript" charset="utf-8"></script>  
+    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-modal.js"     type="text/javascript" charset="utf-8"></script>   -->
+    <script src="vendor/farbtastic/farbtastic.js" type="text/javascript" charset="utf-8"></script>
+    <script src="vendor/infusion/jquery.xcolor.min.js" type="text/javascript" charset="utf-8"></script>    
+    <script src="lib/cordonnier.js"     type="text/javascript" charset="utf-8"></script>  
+
+  </body>
+</html>
