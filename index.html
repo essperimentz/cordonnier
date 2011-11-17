@@ -29,15 +29,15 @@
         h1 a,h2 a,h3 a,h4 a,h5 a,h6 a{color:#804000}
         h1 small,h2 small,h3 small,h4 small,h5 small,h6 small{color:#c96}
         .welcome{font-family:'Rancho',sans-serif;}
-        .project,.welcome{font-family:'Vibur',sans-serif;}
+        .brand,.welcome{font-family:'Vibur',sans-serif;}
         .topbar .brand{
             padding-left:32px;margin-left:-32px;background:url(lib/louis-marie-cordonnier.png) left center no-repeat}
             textarea{resize:vertical}
-        #main{padding-top:65px}
+        body{padding-top:60px}
         #preview{
             height:auto;
             width:100%;
-            min-height:40em;            
+            min-height:42em;            
             border:0;
         }
         #fake-browser{
@@ -95,7 +95,9 @@
         footer{text-align:center}
         footer a.project{font-size:1.1em}
         .brand small{font-size:0.5em;color:#C96;font-weight:bold}
-        .support{color:#999;font-size:11px;}
+        .support,.legal{color:#999;font-size:11px;}
+		.legal a{color:#888;text-decoration:underline}
+		.twitter-share-button{float:right;margin-top:10px;}
     </style>
   </head>
 
@@ -107,16 +109,17 @@
       <div class="topbar-inner">
         <div class="container">
           <a class="brand" href="#">Cordonnier <small>v0.1</small></a>
+			<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
           <!-- <ul class="nav">
             <li class="active"><a href="#section-a">outp</a></li>
           </ul> -->
         </div>
       </div>
     </div>
-
-
-
     <div id="main" class="container">
+	    <p class="support">
+	       This little project is built for Google Chrome 15.0+ or Firefox 7.0+. It might work in Opera, Safari doesn't support the FileReader, and Internet Explorer has been completely ignored. 
+	    </p>
         <section id="section-a">
             <div class="content row">
                 <div class="span6">
@@ -125,6 +128,7 @@
                     </header>
                     <div id="edit" class="row">
                             <form class="form-stacked">
+								<p>Edit these fields, a preview will be automatically updated on the right. When you're done, scroll down to grab your template.</p>
                                 <fieldset>
                                     <legend>Custom</legend>
                                     <div class="clearfix">                     
@@ -136,11 +140,11 @@
                                             </label>
                                             <label class="span2">
                                                 <img alt="Fluid"  width="90px" src="lib/example-diagram-02.png" />
-                                                <input type="radio" checked="checked" name="master" value="fluid">
+                                                <input type="radio" name="master" value="fluid">
                                             </label>
                                             <label class="span2">
                                                 <img alt="Container App"  width="90px" src="lib/example-diagram-03.png" />
-                                                <input type="radio" checked="checked" name="master" value="container-app">
+                                                <input type="radio" name="master" value="container-app">
                                             </label>
                                         </div>
                                     </div>
@@ -189,7 +193,7 @@
                                                 <input type="hidden" id="font_url"    name="font_url"    class="span6">
                                                 <input type="hidden" id="font_family" name="font_family" class="span6">                                                
                                             </div>
-
+											<span class="help-block">These are all google webfonts.</span>
                                         </div>
                                     </div>
 
@@ -200,6 +204,7 @@
                                                 <input type="text" id="project_color" name="color" value="" class="span2">    
                                                 <div class="picker span4" style="float:right"></div>
                                             </div>
+											<span class="help-block">Type a hex color value <strong>with</strong> the # or use the color picker.</span>
                                         </div>
                                     </div>
                                     
@@ -224,29 +229,34 @@
     </div><!-- /container -->
     <footer class="footer">
       <div class="container">
-          <p class="support">
-             This little project is built for Google Chrome 15.0+ or Firefox 7.0+. It might work in Opera, Safari doesn't support the FileReader, and Internet Explorer has been completely ignored. 
-          </p>
           <p class="legal">
-              <a class="brand" href="#">Cordonnier v0.1</a> by <a href="http://twitter.com/#!/quickredfox">@quickredfox</a>. <br>Copyright &copy; 2011 Francois Lafortune.
+			<a class="brand" href="https://github.com/essperimentz/cordonnier">Cordonnier v0.1</a> by <a href="http://twitter.com/#!/quickredfox">@quickredfox</a>.
+		  </p>
+		  <p class="legal">
+			Copyright &copy; 2011 Francois Lafortune. Licensed under the Apache License v2.0 <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
           </p>
       </div>
     </footer>
     <output id="html" class="prettyprint lang-html"></output>
-
+	<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
     <script src="http://assets.needium.com/lib/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-alerts.js"    type="text/javascript" charset="utf-8"></script>  
-    <!-- // 
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-buttons.js"   type="text/javascript" charset="utf-8"></script>  
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-dropdown.js"  type="text/javascript" charset="utf-8"></script>  
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-tabs.js"      type="text/javascript" charset="utf-8"></script>  
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-twipsy.js"    type="text/javascript" charset="utf-8"></script>  
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-popover.js"   type="text/javascript" charset="utf-8"></script>  
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-scrollspy.js" type="text/javascript" charset="utf-8"></script>  
-    // <script src="http://assets.needium.com/lib/bootstrap/1.4.0/js/bootstrap-modal.js"     type="text/javascript" charset="utf-8"></script>   -->
     <script src="vendor/farbtastic/farbtastic.js" type="text/javascript" charset="utf-8"></script>
     <script src="vendor/infusion/jquery.xcolor.min.js" type="text/javascript" charset="utf-8"></script>    
     <script src="lib/cordonnier.js"     type="text/javascript" charset="utf-8"></script>  
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-27083927-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
 
   </body>
 </html>

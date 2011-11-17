@@ -1,5 +1,8 @@
 ###
 	Cordonnier v0.1
+    Copyright 2011 Francois Lafortune, @quickredfox
+    Licensed under the Apache License v2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 ###
 MASTERS = {}
 
@@ -26,6 +29,8 @@ readFields = ()->
         fields.project = "My Project"
     if !fields.copyright
         fields.copyright = "Company Inc."
+    if !fields.master
+        fields.master = 'hero'
     fields
 
 ###
@@ -36,24 +41,24 @@ shrinkicon = (dataURI, callback)->
     img.onload = ()->        
         {width,height} = img
         max            = Math.max(width,height)
+        ideal = 32
         if max < 32 then return URI: dataURI , width: width, height: height
-        diff   = 32*width/height
-        height = 32
-        width  = width * (width/diff)
+        if height < 32 then ideal = height
+        width = (width*ideal)/height
         canvas         = document.createElement('canvas')
         canvas.width   = width
-        canvas.height  = height
+        canvas.height  = ideal
         ctx = canvas.getContext('2d')
-        ctx.drawImage( img, 0, 0, width, height )
+        ctx.drawImage( img, 0, 0, width, ideal )
         URI = canvas.toDataURL("image/png")
-        callback URI: URI , width: width, height: height
+        callback URI: URI , width: width, height: ideal
     img.src    = dataURI
 
 ###
  Inject a <link> tag right before the first <style> on a provided master
 ###
 injectLink = ( master, link )-> 
-    master = master.replace /<style/, "#{links}\n\t<style"
+    master = master.replace /<style/, "#{link}\n\t<style"
 
 ###
  Inject a css rule right before the first </style> on a provided master
@@ -73,7 +78,7 @@ injectScript = ( master, script )->
 buildFilters = [
     ( master, fields, isPreview)->
         unless isPreview 
-            return master.replace /<!--\[preview\]-->(.|\n)+\/preview\]-->/g, ''
+            return master.replace /\<!--\[preview[^\[]+<!--.+-->/g, ''
         else return master
     
     ( master, fields, isPreview )->
@@ -98,8 +103,8 @@ buildFilters = [
         
     ( master, fields, isPreview)->
         if fields.icon
-            pad = parseFloat(fields.icon_width)+5
-            return injectRule master, ".topbar .brand{display:inline-block;padding-left:#{pad}px;background:url(#{fields.icon}) left center no-repeat;}"
+            pad = parseFloat(fields.icon_width)+10
+            return injectRule master, ".topbar .brand{display:inline-block;padding-left:#{pad}px;background:url(#{fields.icon}) 5px center no-repeat;}"
         else return master
         
     ( master, fields, isPreview)->
@@ -113,8 +118,8 @@ buildFilters = [
 ###        
 buildOutput = (fields, isPreview=false )->
     filters  = [].concat buildFilters
-    master   = MASTERS[fields.master||'hero'] 
-    reductor = ( master, filter )-> filter.call( null, master, fields, preview )
+    master   = MASTERS[fields.master] 
+    reductor = ( master, filter )-> filter.call( null, master, fields, isPreview )
     filters.reduce( reductor, master ).insertData( fields )
 
 ###
@@ -128,6 +133,16 @@ updatePreview = ()->
     $('#preview').attr 'src', "data:text/html,#{encodeURIComponent(preview)}"
     $('#html').val( markup )    
 
+noClick = ( )->
+    $preview = $('#preview')
+    $parent  = $preview.parent()
+    pos      = $parent.css('position')
+    if pos isnt 'absolute'
+        $parent.css('position', 'relative')
+    $block = $('<div>')
+    $parent.append($block)
+    $block.css top:0 ,right:0 , bottom:0, left: 0, width: $preview.width(), height: $preview.height(), position: 'absolute'
+    
 ###
   Fetch templates, then listen for form changes
 ###
@@ -135,9 +150,12 @@ listen = ()->
     fetch = $.when.apply $.Deferred, [
         $.get( "templates/hero.html" ).pipe (html)-> 
             MASTERS['hero'] = html
-        $.get( "templates/fluid.html" ).pipe (html)-> MASTERS['fluid'] = html
-        $.get( "templates/container-app.html" ).pipe (html)-> MASTERS['container-app'] = html
+        $.get( "templates/fluid.html" ).pipe (html)-> 
+            MASTERS['fluid'] = html
+        $.get( "templates/container-app.html" ).pipe (html)-> 
+            MASTERS['container-app'] = html
     ]
+    
     
     fetch.fail (error)->
         alert('template fetch failed')
@@ -156,6 +174,7 @@ $ ()->
         Start the app.
     ###
     listen()
+    noClick()
     ### 
         App-specific plugins
     ###    
@@ -170,26 +189,29 @@ $ ()->
         reader.readAsDataURL(file);
         
     $('input#icon').each ()->
-        $uploader = $( @ )
-        $form = $uploader.parents('form:first')
+        $original = $( @ )
+        $form     = $original.parents('form:first')
+        $uploader = $original.clone()
+        $original.replaceWith $uploader
         $uploader.bind 'change', (e)->
             e.stopPropagation()
-            readFile this.files[0], (dataURI)->
-                $wrap    = $('<div>')
-                shrinkicon dataURI, ( shrunk )-> 
-                    $newicon = $('<img>').addClass('preview-file-upload').attr src: shrunk.URI, height: shrunk.height, width: shrunk.width
-                    $reset   = $('<a>').addClass('reset-file-upload').attr(href:'#').text('change icon').bind 'click', (e)->
-                        e.preventDefault() 
-                        $wrap.remove()
-                        $uploader.show()
-                    $uploader.hide().after $.fn.append.apply $wrap, [ 
-                        $newicon
-                        $reset
-                        $('<input>').attr( type: 'hidden', value: shrunk.URI, name: 'icon')
-                        $('<input>').attr( type: 'hidden', value: shrunk.width, name: 'icon_width')
-                        $('<input>').attr( type: 'hidden', value: shrunk.height, name: 'icon_height')                                
-                    ]    
-                    $form.trigger "change"
+            if this.files.length > 0
+                readFile this.files[0], (dataURI)->
+                    $wrap    = $('<div>')
+                    shrinkicon dataURI, ( shrunk )-> 
+                        $newicon = $('<img>').addClass('preview-file-upload').attr src: shrunk.URI, height: shrunk.height, width: shrunk.width
+                        $reset   = $('<a>').addClass('reset-file-upload').attr(href:'#').text('change icon').bind 'click', (e)->
+                            e.preventDefault() 
+                            $wrap.remove()
+                            $uploader.show()
+                        $uploader.hide().after $.fn.append.apply $wrap, [ 
+                            $newicon
+                            $reset
+                            $('<input>').attr( type: 'hidden', value: shrunk.URI, name: 'icon')
+                            $('<input>').attr( type: 'hidden', value: shrunk.width, name: 'icon_width')
+                            $('<input>').attr( type: 'hidden', value: shrunk.height, name: 'icon_height')                                
+                        ]    
+                        $form.trigger "change"
     
     ### Master Template Picker ###
     $('.master-picker').each ()->
